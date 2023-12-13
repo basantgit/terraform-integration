@@ -1,0 +1,25 @@
+pipeline {
+    agent any
+    environment {
+        terraform = "Terraform v1.6.5"
+}
+    stages {
+        stage('Pulld the code from GitHub') {
+            steps {
+                git branch: 'main', credentialsId: 'git-crds', url: 'https://github.com/basantgit/terraform-integration.git'
+            }
+        }
+        
+        stage('Terraform has been successfully initialized!') {
+            steps {
+                sh "terraform init"
+            }
+        }
+        
+        stage('Check the configuration of deploy infra') {
+            steps {
+                sh "terraform apply -auto-approve"
+            }
+        }
+    }
+}
